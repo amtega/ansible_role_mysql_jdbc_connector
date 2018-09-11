@@ -1,2 +1,26 @@
 ---
 # Role variables
+
+# Connector urls
+
+mysql_jdbc_connector_site: >-
+  https://dev.mysql.com/downloads/connector/j
+
+mysql_jdbc_connector_latest_mirror: >-
+  https://dev.mysql.com/get/Downloads/Connector-J
+
+mysql_jdbc_connector_archive_mirror: >-
+  https://downloads.mysql.com/archives/get/file
+
+# Proxy environment settings
+
+mysql_jdbc_connector_http_proxy_config:
+    http_proxy: "{{ mysql_jdbc_connector_http_proxy | default('') }}"
+    https_proxy: "{{ mysql_jdbc_connector_https_proxy | default('') }}"
+    http_no_proxy: "{{ mysql_jdbc_connector_no_proxy | default('') }}"
+
+mysql_jdbc_connector_http_proxy_environment: >-
+  {{ (mysql_jdbc_connector_http_proxy is defined
+      or mysql_jdbc_connector_https_proxy is defined
+      or mysql_jdbc_connector_no_proxy is defined)
+     | ternary(mysql_jdbc_connector_http_proxy_config, {}) }}
