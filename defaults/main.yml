@@ -1,2 +1,39 @@
 ---
 # Role default lower priority variables
+
+# State of the mysql jdbc connector. Can be present or absent
+
+mysql_jdbc_connector_state: present
+
+# Version of the mysql jdbc connector to deploy. You can use the keyword latest
+# to install the latest available version
+
+mysql_jdbc_connector_version: latest
+
+# Where to put jdbc connector
+
+mysql_jdbc_connector_dir: /opt/mysql-jdbc-connector
+
+# Where to download mysql jdbc connector redistributable
+
+mysql_jdbc_connector_download_dir: /tmp
+
+# Remove or not downloaded redistributable after install
+
+mysql_jdbc_connector_remove_download: true
+
+# Specific url redistributable tarball path (without the filename) if you don't
+# want to use official sites
+
+# mysql_jdbc_connector_download_url:
+
+#
+# Proxy settings
+#
+
+mysql_jdbc_connector_http_proxy: >-
+  {{ ansible_facts.env.http_proxy | default('') }}
+mysql_jdbc_connector_https_proxy: >-
+  {{ ansible_facts.env.https_proxy | default('') }}
+mysql_jdbc_connector_no_proxy: >-
+  {{ ansible_facts.env.no_proxy | default('') }}

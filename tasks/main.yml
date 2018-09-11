@@ -1,2 +1,98 @@
 ---
 # Role tasks
+
+- block:
+    - name: setup mysql jdbc connector facts
+      set_fact:
+         mysql_jdbc_connector_latest_version: "{{ latest_version }}"
+         mysql_jdbc_connector_jar_path: "{{ jar_path }}"
+      environment: "{{ mysql_jdbc_connector_http_proxy_environment }}"
+      vars:
+        latest_version: >-
+          {{ lookup("url", mysql_jdbc_connector_site, wantlist=True)
+             | select("search", "<h1>Connector/J *.* *</h1>")
+             | first
+             | regex_replace(".*<h1>Connector/J (.*)</h1>.*", "\1")
+             | trim }}
+
+    - name: create mysql jdbc connector required directories
+      file:
+        path: "{{ item }}"
+        state: directory
+      loop:
+        - "{{ mysql_jdbc_connector_dir }}"
+        - "{{ mysql_jdbc_connector_download_dir }}"
+
+    - name: check if mysql jdbc connector is installed
+      stat:
+        path: "{{ jar_path }}"
+      register: mysql_jdbc_connector_jar_check_result
+
+    - block:
+        - name: download mysql jdbc connector redistributable
+          get_url:
+            url: "{{ download_url }}"
+            dest: "{{ mysql_jdbc_connector_download_dir }}"
+          register: mysql_jdbc_connector_download_result
+
+        - name: extract mysql jdbc connector redistributable tarball_filename
+          unarchive:
+            src: "{{ downloaded_tarball_filename }}"
+            dest: "{{ mysql_jdbc_connector_download_dir }}"
+            copy: no
+            creates: "{{ jar_path }}"
+          register: mysql_jdbc_connector_unarchive_result
+
+        - name: install mysql jdbc connector
+          copy:
+            src: "{{ unarchive_dir }}/{{ jar_filename }}"
+            dest: "{{ mysql_jdbc_connector_dir }}"
+            remote_src: yes
+      when:
+        - mysql_jdbc_connector_state == "present"
+        - not mysql_jdbc_connector_jar_check_result.stat.exists
+
+    - name: remove mysql jdbc connector unarchive directory
+      file:
+        path: "{{ unarchive_dir }}"
+        state: absent
+
+    - name: remove mysql jdbc connector redistributable
+      file:
+        path: "{{ downloaded_tarball_filename }}"
+        state: absent
+      when: mysql_jdbc_connector_remove_download
+
+    - name: uninstall mysql jdbc connector
+      file:
+        path: "{{ jar_path }}"
+        state: absent
+      when: mysql_jdbc_connector_state == "absent"
+
+  environment: "{{ mysql_jdbc_connector_http_proxy_environment }}"
+  vars:
+    version: >-
+      {{ (mysql_jdbc_connector_version == "latest")
+         | ternary(mysql_jdbc_connector_latest_version,
+                   mysql_jdbc_connector_version) }}
+    filename: "mysql-connector-java-{{ version }}"
+    jar_filename: "{{ filename }}.jar"
+    tarball_filename: "{{ filename }}.tar.gz"
+    downloaded_tarball_filename: >-
+      {{ mysql_jdbc_connector_download_dir + "/" + tarball_filename }}
+    jar_path: "{{ mysql_jdbc_connector_dir }}/{{ jar_filename }}"
+    unarchive_dir: >-
+      {{ mysql_jdbc_connector_download_dir
+        + "/"
+        + tarball_filename | regex_replace(".tar.gz", "") }}
+    download_mirror: >-
+      {{ (version is version(mysql_jdbc_connector_latest_version, "=="))
+         | ternary(mysql_jdbc_connector_latest_mirror,
+                   mysql_jdbc_connector_archive_mirror) }}
+    download_url: >-
+      {{ (mysql_jdbc_connector_download_url is defined)
+         | ternary(mysql_jdbc_connector_download_url, download_mirror)
+           + "/"
+           + tarball_filename }}
+  tags:
+    - role::mysql_jdbc_connector
