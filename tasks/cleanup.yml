@@ -1,0 +1,17 @@
+---
+# Role cleanup tasks
+
+- block:
+    - name: remove mysql jdbc connector unarchive directory
+      file:
+        path: "{{ mysql_jdbc_connector_unarchive_dir }}"
+        state: absent
+
+    - name: remove mysql jdbc connector redistributable
+      file:
+        path: "{{ mysql_jdbc_connector_downloaded_tarball_filename }}"
+        state: absent
+      when: mysql_jdbc_connector_remove_download
+  tags:
+    - role::mysql_jdbc_connector
+    - role::mysql_jdbc_connector::cleanup

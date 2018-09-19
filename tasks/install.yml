@@ -1,0 +1,31 @@
+---
+# Role install tasks
+
+- block:
+    - name: create mysql jdbc connector destination directory
+      file:
+        path: "{{ mysql_jdbc_connector_dir }}"
+        state: directory
+
+    - name: extract mysql jdbc connector redistributable tarball
+      unarchive:
+        src: "{{ mysql_jdbc_connector_downloaded_tarball_filename }}"
+        dest: "{{ mysql_jdbc_connector_download_dir }}"
+        copy: no
+        creates: "{{ mysql_jdbc_connector_jar_path }}"
+      register: mysql_jdbc_connector_unarchive_result
+
+    - name: install mysql jdbc connector
+      copy:
+        src: >-
+          {{ mysql_jdbc_connector_unarchive_dir
+             + "/"
+             + mysql_jdbc_connector_jar_filename }}
+        dest: "{{ mysql_jdbc_connector_dir }}"
+        remote_src: yes
+  when:
+    - mysql_jdbc_connector_state == "present"
+    - not mysql_jdbc_connector_jar_check_result.stat.exists
+  tags:
+    - role::mysql_jdbc_connector
+    - role::mysql_jdbc_connector::install

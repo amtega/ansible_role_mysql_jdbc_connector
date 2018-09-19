@@ -12,7 +12,7 @@ mysql_jdbc_connector_version: latest
 
 # Where to put jdbc connector
 
-mysql_jdbc_connector_dir: /opt/mysql-jdbc-connector
+mysql_jdbc_connector_dir: /opt/mysql_jdbc_connector
 
 # Where to download mysql jdbc connector redistributable
 
@@ -22,8 +22,8 @@ mysql_jdbc_connector_download_dir: /tmp
 
 mysql_jdbc_connector_remove_download: true
 
-# Specific url redistributable tarball path (without the filename) if you don't
-# want to use official sites
+# Specific download url for redistributable tarball if you don't want to use
+# official site download
 
 # mysql_jdbc_connector_download_url:
 
