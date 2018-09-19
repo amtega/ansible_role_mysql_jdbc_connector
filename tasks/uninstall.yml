@@ -1,0 +1,11 @@
+---
+# Role tasks
+
+- name: uninstall mysql jdbc connector
+  file:
+    path: "{{ mysql_jdbc_connector_jar_path }}"
+    state: absent
+  when: mysql_jdbc_connector_state == "absent"
+  tags:
+    - role::mysql_jdbc_connector
+    - role::mysql_jdbc_connector::uninstall

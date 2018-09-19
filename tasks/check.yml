@@ -1,0 +1,22 @@
+---
+# Role check tasks
+
+- block:
+    - name: assert platform is supported
+      assert:
+        that:
+          - distribution in mysql_jdbc_connector_supported_distributions
+          - >-
+            ansible_facts.distribution_version
+            is version(mysql_jdbc_connector_supported_versions[distribution],
+                       ">=")
+
+    - name: check if mysql jdbc connector is installed
+      stat:
+        path: "{{ mysql_jdbc_connector_jar_path }}"
+      register: mysql_jdbc_connector_jar_check_result
+  vars:
+    distribution: "{{ ansible_facts.distribution | lower }}"
+  tags:
+    - role::mysql_jdbc_connector
+    - role::mysql_jdbc_connector::check

@@ -1,0 +1,17 @@
+---
+# Role facts tasks
+
+- name: setup mysql jdbc connector facts
+  set_fact:
+     mysql_jdbc_connector_latest_version: >-
+       {{ lookup("url", mysql_jdbc_connector_site, wantlist=True)
+          | select("search", "<h1>Connector/J *.* *</h1>")
+          | first
+          | regex_replace(".*<h1>Connector/J (.*)</h1>.*", "\1")
+          | trim }}
+     mysql_jdbc_connector_jar_path: >-
+       {{ mysql_jdbc_connector_dir }}/{{ mysql_jdbc_connector_jar_filename }}
+  environment: "{{ mysql_jdbc_connector_http_proxy_environment }}"
+  tags:
+    - role::mysql_jdbc_connector
+    - role::mysql_jdbc_connector::facts
