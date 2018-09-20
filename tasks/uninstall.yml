@@ -1,5 +1,5 @@
 ---
-# Role tasks
+# Role uninstall tasks
 
 - name: uninstall mysql jdbc connector
   file:
