@@ -1,33 +1,14 @@
 ---
 # Role download tasks
 
-- block:
-    - name: create mysql jdbc connector download directory
-      file:
-        path: "{{ mysql_jdbc_connector_download_dir }}"
-        state: directory
-
-    - name: download mysql jdbc connector redistributable
-      get_url:
-        url: "{{ download_url }}"
-        dest: "{{ mysql_jdbc_connector_download_dir }}"
-      register: mysql_jdbc_connector_download_result
+- name: download mysql jdbc connector artifact
+  include_role:
+    name: amtega.artifact
+  vars:
+    artifact: "{{ mysql_jdbc_connector_artifact }}"
   when:
     - mysql_jdbc_connector_state == "present"
     - not mysql_jdbc_connector_jar_check_result.stat.exists
-  environment: "{{ mysql_jdbc_connector_http_proxy_environment }}"
-  vars:
-    download_mirror: >-
-      {{ (mysql_jdbc_connector_effective_version
-          is version(mysql_jdbc_connector_latest_version, "=="))
-         | ternary(mysql_jdbc_connector_latest_mirror,
-                   mysql_jdbc_connector_archive_mirror) }}
-    download_url: >-
-      {{ (mysql_jdbc_connector_download_url is defined)
-         | ternary(mysql_jdbc_connector_download_url,
-                   download_mirror
-                   + "/"
-                   + mysql_jdbc_connector_tarball_filename) }}
   tags:
     - role::mysql_jdbc_connector
     - role::mysql_jdbc_connector::download

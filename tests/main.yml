@@ -29,17 +29,12 @@
       mysql_jdbc_connector_state: present
       mysql_jdbc_connector_version: 8.0.11
       mysql_jdbc_connector_dir: /root/software
-      mysql_jdbc_connector_download_dir: /root/software
-      mysql_jdbc_connector_remove_download: false
+      mysql_jdbc_connector_remove_artifact: false
   tasks:
     - name: check mysql connector download
       stat:
-        path: >-
-          {{ mysql_jdbc_connector_download_dir
-             + "/"
-             + "mysql-connector-java-"
-             + mysql_jdbc_connector_version
-             + ".tar.gz" }}
+        path: "{{ artifact_result_mysql_jdbc_connector.download_path }}"
+      when: artifact_result_mysql_jdbc_connector is defined
       register: check_download_result
 
     - name: check mysql connector install
@@ -71,37 +66,6 @@
   tags:
     - idempotence
 
-- name: test mysql_jdbc_connector role with custom download url
-  hosts: docker_sandbox_containers
-  roles:
-    - amtega.mysql_jdbc_connector
-  vars:
-      mysql_jdbc_connector_state: present
-      mysql_jdbc_connector_version: 13.13.13
-      mysql_jdbc_connector_dir: /root/software
-      mysql_jdbc_connector_download_dir: /root/software
-      mysql_jdbc_connector_download_url: file:/tmp/connector.tar.gz
-      mysql_jdbc_connector_remove_download: false
-  tasks:
-    - name: check mysql connector download
-      stat:
-        path: >-
-          {{ mysql_jdbc_connector_download_dir
-             + "/"
-             + "connector.tar.gz" }}
-      register: check_download_result
-
-    - name: check mysql connector install
-      stat:
-        path: "{{ mysql_jdbc_connector_jar_path }}"
-      register: check_install_result
-
-    - name: check that mysql connector was downloaded and installed
-      assert:
-        that:
-          - check_download_result.stat.exists
-          - check_install_result.stat.exists
-
 - name: test mysql_jdbc_connector role absent state
   hosts: docker_sandbox_containers
   roles:
@@ -110,17 +74,12 @@
       mysql_jdbc_connector_state: absent
       mysql_jdbc_connector_version: 8.0.11
       mysql_jdbc_connector_dir: /root/software
-      mysql_jdbc_connector_download_dir: /root/software
-      mysql_jdbc_connector_remove_download: true
+      mysql_jdbc_connector_remove_artifact: true
   tasks:
     - name: check mysql connector download
       stat:
-        path: >-
-          {{ mysql_jdbc_connector_download_dir
-             + "/"
-             + "mysql-connector-java-"
-             + mysql_jdbc_connector_version
-             + ".tar.gz" }}
+        path: "{{ artifact_result_mysql_jdbc_connector.download_path }}"
+      when: artifact_result_mysql_jdbc_connector is defined
       register: check_download_result
 
     - name: check mysql connector install
