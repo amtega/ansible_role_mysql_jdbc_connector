@@ -14,26 +14,27 @@ mysql_jdbc_connector_version: latest
 
 mysql_jdbc_connector_dir: /opt/mysql_jdbc_connector
 
-# Where to download mysql jdbc connector redistributable
-
-mysql_jdbc_connector_download_dir: /tmp
-
-# Remove or not downloaded redistributable after install
-
-mysql_jdbc_connector_remove_download: true
-
-# Specific download url for redistributable tarball if you don't want to use
-# official site download
-
-# mysql_jdbc_connector_download_url:
-
+# The role will try to identify the mysql jdbc connector artifact to download
+# from the official site.
 #
-# Proxy settings
+# If you want to download the artifact from another repository yo need to
+# configure the `mysql_jdbc_connector_artifact` variable to point to a
+# local/public repository that contains the required artifact
 #
+# Take a look to `amtega.artifact` role documentation to known about supported
+# types of artifacts, their specific settings and how to configure a proxy if
+# necessary
 
-mysql_jdbc_connector_http_proxy: >-
-  {{ ansible_facts.env.http_proxy | default('') }}
-mysql_jdbc_connector_https_proxy: >-
-  {{ ansible_facts.env.https_proxy | default('') }}
-mysql_jdbc_connector_no_proxy: >-
-  {{ ansible_facts.env.no_proxy | default('') }}
+mysql_jdbc_connector_artifact:
+    id: mysql_jdbc_connector
+    type: https
+    host: "{{ mysql_jdbc_connector_official_download_host }}"
+    path: "{{ mysql_jdbc_connector_official_download_path }}"
+    file: "{{ mysql_jdbc_connector_official_download_file }}"
+    dest: /tmp
+    timeout: 120
+    validate_certs: yes
+
+# Remove or not downloaded artifact after install
+
+mysql_jdbc_connector_remove_artifact: true

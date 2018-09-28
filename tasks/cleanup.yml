@@ -7,11 +7,11 @@
         path: "{{ mysql_jdbc_connector_unarchive_dir }}"
         state: absent
 
-    - name: remove mysql jdbc connector redistributable
+    - name: remove mysql jdbc connector artifact
       file:
-        path: "{{ mysql_jdbc_connector_downloaded_tarball_filename }}"
+        path: "{{ mysql_jdbc_connector_package }}"
         state: absent
-      when: mysql_jdbc_connector_remove_download
+      when: mysql_jdbc_connector_remove_artifact
   tags:
     - role::mysql_jdbc_connector
     - role::mysql_jdbc_connector::cleanup

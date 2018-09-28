@@ -15,12 +15,14 @@ mysql_jdbc_connector_supported_versions:
   fedora: 27
   rhel: 6
 
-# Paths
+# Effective version to deploy
 
 mysql_jdbc_connector_effective_version: >-
   {{ (mysql_jdbc_connector_version == "latest")
      | ternary(mysql_jdbc_connector_latest_version,
                mysql_jdbc_connector_version) }}
+
+# Paths
 
 mysql_jdbc_connector_filename: >-
   mysql-connector-java-{{ mysql_jdbc_connector_effective_version }}
@@ -28,26 +30,26 @@ mysql_jdbc_connector_filename: >-
 mysql_jdbc_connector_jar_filename: "{{ mysql_jdbc_connector_filename }}.jar"
 
 mysql_jdbc_connector_tarball_filename: >-
-  {{ (mysql_jdbc_connector_download_url is defined)
-     | ternary(mysql_jdbc_connector_download_url
-               | default("/")
-               | urlsplit("path")
-               | basename,
-               mysql_jdbc_connector_filename
-               + ".tar.gz") }}
-
-mysql_jdbc_connector_downloaded_tarball_filename: >-
-  {{ mysql_jdbc_connector_download_dir
-     +
-     "/"
-     + mysql_jdbc_connector_tarball_filename }}
+  {{ mysql_jdbc_connector_filename + ".tar.gz" }}
 
 mysql_jdbc_connector_unarchive_dir: >-
-  {{ mysql_jdbc_connector_download_dir
-    + "/"
-    + mysql_jdbc_connector_tarball_filename | regex_replace(".tar.gz", "") }}
+  {{ mysql_jdbc_connector_package
+     | dirname
+     + "/"
+     + mysql_jdbc_connector_tarball_filename | regex_replace(".tar.gz", "") }}
 
 # Connector urls
+
+mysql_jdbc_connector_download_mirror: >-
+  {{ (mysql_jdbc_connector_effective_version
+      is version(mysql_jdbc_connector_latest_version, "=="))
+     | ternary(mysql_jdbc_connector_latest_mirror,
+               mysql_jdbc_connector_archive_mirror) }}
+
+mysql_jdbc_connector_download_url: >-
+  {{ mysql_jdbc_connector_download_mirror
+     + "/"
+     + mysql_jdbc_connector_tarball_filename }}
 
 mysql_jdbc_connector_site: >-
   https://dev.mysql.com/downloads/connector/j
@@ -58,15 +60,19 @@ mysql_jdbc_connector_latest_mirror: >-
 mysql_jdbc_connector_archive_mirror: >-
   https://downloads.mysql.com/archives/get/file
 
-# Proxy environment settings
+mysql_jdbc_connector_official_download_host: >-
+  https://{{ mysql_jdbc_connector_download_url | urlsplit('hostname') }}
 
-mysql_jdbc_connector_http_proxy_config:
-    http_proxy: "{{ mysql_jdbc_connector_http_proxy | default('') }}"
-    https_proxy: "{{ mysql_jdbc_connector_https_proxy | default('') }}"
-    http_no_proxy: "{{ mysql_jdbc_connector_no_proxy | default('') }}"
+mysql_jdbc_connector_official_download_path: >-
+  {{ mysql_jdbc_connector_download_url | urlsplit('path') | dirname }}
 
-mysql_jdbc_connector_http_proxy_environment: >-
-  {{ (mysql_jdbc_connector_http_proxy is defined
-      or mysql_jdbc_connector_https_proxy is defined
-      or mysql_jdbc_connector_no_proxy is defined)
-     | ternary(mysql_jdbc_connector_http_proxy_config, {}) }}
+mysql_jdbc_connector_official_download_file: >-
+  {{ mysql_jdbc_connector_download_url | urlsplit('path') | basename }}
+
+# Restistributable package
+
+mysql_jdbc_connector_package: >-
+  {{ lookup('vars',
+            'artifact_result_'
+            + mysql_jdbc_connector_artifact.id,
+            default='')['download_path'] | default('') }}
