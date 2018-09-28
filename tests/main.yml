@@ -34,7 +34,6 @@
     - name: check mysql connector download
       stat:
         path: "{{ artifact_result_mysql_jdbc_connector.download_path }}"
-      when: artifact_result_mysql_jdbc_connector is defined
       register: check_download_result
 
     - name: check mysql connector install
@@ -79,7 +78,6 @@
     - name: check mysql connector download
       stat:
         path: "{{ artifact_result_mysql_jdbc_connector.download_path }}"
-      when: artifact_result_mysql_jdbc_connector is defined
       register: check_download_result
 
     - name: check mysql connector install

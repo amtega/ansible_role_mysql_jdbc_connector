@@ -5,10 +5,12 @@
   include_role:
     name: amtega.artifact
   vars:
-    artifact: "{{ mysql_jdbc_connector_artifact }}"
+    override:
+      download: "{{ not mysql_jdbc_connector_jar_check_result.stat.exists }}"
+    artifact: >-
+      {{ mysql_jdbc_connector_artifact | combine(override) }}
   when:
     - mysql_jdbc_connector_state == "present"
-    - not mysql_jdbc_connector_jar_check_result.stat.exists
   tags:
     - role::mysql_jdbc_connector
     - role::mysql_jdbc_connector::download
