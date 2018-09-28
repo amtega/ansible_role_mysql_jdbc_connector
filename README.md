@@ -17,7 +17,7 @@ The role setups the following facts:
 
 ## Dependencies
 
-None.
+[amtega.artifact](https://galaxy.ansible.com/amtega/artifact)
 
 ## Example Playbook
 
