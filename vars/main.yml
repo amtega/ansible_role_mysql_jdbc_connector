@@ -69,7 +69,7 @@ mysql_jdbc_connector_official_download_path: >-
 mysql_jdbc_connector_official_download_file: >-
   {{ mysql_jdbc_connector_download_url | urlsplit('path') | basename }}
 
-# Restistributable package
+# Redistributable package
 
 mysql_jdbc_connector_package: >-
   {{ lookup('vars',
