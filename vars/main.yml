@@ -1,20 +1,6 @@
 ---
 # Role variables
 
-# Supported distributions
-
-mysql_jdbc_connector_supported_distributions:
-  - centos
-  - fedora
-  - rhel
-
-# Supported distributions versions
-
-mysql_jdbc_connector_supported_versions:
-  centos: 6
-  fedora: 27
-  rhel: 6
-
 # Effective version to deploy
 
 mysql_jdbc_connector_effective_version: >-

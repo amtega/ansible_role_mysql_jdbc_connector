@@ -4,7 +4,7 @@ This is an [Ansible](http://www.ansible.com) role to deploy MySQL JDBC connector
 
 ## Requirements
 
-[Ansible 2.6+](http://docs.ansible.com/ansible/latest/intro_installation.html)
+[Ansible 2.7+](http://docs.ansible.com/ansible/latest/intro_installation.html)
 
 ## Role Variables
 
@@ -17,7 +17,8 @@ The role setups the following facts:
 
 ## Dependencies
 
-[amtega.artifact](https://galaxy.ansible.com/amtega/artifact)
+- [amtega.check_platform](https://galaxy.ansible.com/amtega/check_platform)
+- [amtega.artifact](https://galaxy.ansible.com/amtega/artifact)
 
 ## Example Playbook
 
