@@ -12,7 +12,7 @@ A list of all the default variables for this role is available in `defaults/main
 
 The role setups the following facts:
 
-- mysql_jdbc_connector_latest_version: latest version of the connector available on the web.
+- mysql_jdbc_connector_latest_version: latest version of the connector available on the web. This fact is only available if you are downloading from the official MySQL site.
 - mysql_jdbc_connector_jar_path: full path to the deployed jar with the connector.
 
 ## Dependencies

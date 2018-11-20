@@ -1,14 +1,34 @@
 ---
 # Role facts tasks
 
-- name: setup mysql jdbc connector facts
-  set_fact:
-     mysql_jdbc_connector_latest_version: >-
-       {{ lookup("url", mysql_jdbc_connector_site, wantlist=True)
-          | select("search", "<h1>Connector/J *.* *</h1>")
-          | first
-          | regex_replace(".*<h1>Connector/J (.*)</h1>.*", "\1")
-          | trim }}
+- block:
+  - block:
+      - name: check internet connection availability
+        wait_for:
+          host: "{{ host }}"
+          port: "{{ (port is none) | ternary(80, port) }}"
+          connect_timeout: 1
+          timeout: 1
+        vars:
+          host: "{{ mysql_jdbc_connector_site | urlsplit('hostname') }}"
+          port: "{{ mysql_jdbc_connector_site | urlsplit('port') }}"
+        register: mysql_jdbc_connector_check_internet_result
+
+      - name: setup mysql jdbc connector latest version
+        when: mysql_jdbc_connector_version == "latest"
+        set_fact:
+           mysql_jdbc_connector_latest_version: >-
+             {{ lookup("url", mysql_jdbc_connector_site, wantlist=True)
+                | select("search", "<h1>Connector/J *.* *</h1>")
+                | first
+                | regex_replace(".*<h1>Connector/J (.*)</h1>.*", "\1")
+                | trim }}
+    when: >-
+      mysql_jdbc_connector_artifact.host
+      == mysql_jdbc_connector_site | urlsplit('hostname')
+
+  - name: setup fact with mysql jdbc connector path
+    set_fact:
      mysql_jdbc_connector_jar_path: >-
        {{ mysql_jdbc_connector_dir }}/{{ mysql_jdbc_connector_jar_filename }}
   tags:
