@@ -58,7 +58,5 @@ mysql_jdbc_connector_official_download_file: >-
 # Redistributable package
 
 mysql_jdbc_connector_package: >-
-  {{ lookup('vars',
-            'artifact_result_'
-            + mysql_jdbc_connector_artifact.id,
-            default='')['download_path'] | default('') }}
+  {{ artifact_result[mysql_jdbc_connector_artifact.id].download_path
+     | default("") }}
