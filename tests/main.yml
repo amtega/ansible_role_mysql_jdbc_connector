@@ -33,7 +33,7 @@
   tasks:
     - name: check mysql connector download
       stat:
-        path: "{{ artifact_result_mysql_jdbc_connector.download_path }}"
+        path: "{{ artifact_result.mysql_jdbc_connector.download_path }}"
       register: check_download_result
 
     - name: check mysql connector install
@@ -77,7 +77,7 @@
   tasks:
     - name: check mysql connector download
       stat:
-        path: "{{ artifact_result_mysql_jdbc_connector.download_path }}"
+        path: "{{ artifact_result.mysql_jdbc_connector.download_path }}"
       register: check_download_result
 
     - name: check mysql connector install

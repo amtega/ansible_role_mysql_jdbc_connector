@@ -28,7 +28,7 @@ mysql_jdbc_connector_unarchive_dir: >-
 
 mysql_jdbc_connector_download_mirror: >-
   {{ (mysql_jdbc_connector_effective_version
-      is version(mysql_jdbc_connector_latest_version, "=="))
+      is version(mysql_jdbc_connector_latest_version | default("0"), "=="))
      | ternary(mysql_jdbc_connector_latest_mirror,
                mysql_jdbc_connector_archive_mirror) }}
 
@@ -58,7 +58,5 @@ mysql_jdbc_connector_official_download_file: >-
 # Redistributable package
 
 mysql_jdbc_connector_package: >-
-  {{ lookup('vars',
-            'artifact_result_'
-            + mysql_jdbc_connector_artifact.id,
-            default='')['download_path'] | default('') }}
+  {{ artifact_result[mysql_jdbc_connector_artifact.id].download_path
+     | default("") }}
