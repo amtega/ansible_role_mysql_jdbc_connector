@@ -28,7 +28,7 @@ mysql_jdbc_connector_unarchive_dir: >-
 
 mysql_jdbc_connector_download_mirror: >-
   {{ (mysql_jdbc_connector_effective_version
-      is version(mysql_jdbc_connector_latest_version, "=="))
+      is version(mysql_jdbc_connector_latest_version | default("0"), "=="))
      | ternary(mysql_jdbc_connector_latest_mirror,
                mysql_jdbc_connector_archive_mirror) }}
 
