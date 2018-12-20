@@ -6,12 +6,15 @@
       file:
         path: "{{ mysql_jdbc_connector_unarchive_dir }}"
         state: absent
+      when: mysql_jdbc_connector_unarchive_dir | length > 0
 
     - name: remove mysql jdbc connector artifact
       file:
         path: "{{ mysql_jdbc_connector_package }}"
         state: absent
-      when: mysql_jdbc_connector_remove_artifact
+      when:
+        - mysql_jdbc_connector_remove_artifact
+        - mysql_jdbc_connector_package | length > 0
   tags:
     - role::mysql_jdbc_connector
     - role::mysql_jdbc_connector::cleanup
