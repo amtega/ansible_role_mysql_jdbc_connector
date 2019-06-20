@@ -2,10 +2,6 @@
 
 This is an [Ansible](http://www.ansible.com) role to deploy MySQL JDBC connector.
 
-## Requirements
-
-[Ansible 2.7+](http://docs.ansible.com/ansible/latest/intro_installation.html)
-
 ## Role Variables
 
 A list of all the default variables for this role is available in `defaults/main.yml`.
@@ -15,10 +11,6 @@ The role setups the following facts:
 - mysql_jdbc_connector_latest_version: latest version of the connector available on the web. This fact is only available if you are downloading from the official MySQL site.
 - mysql_jdbc_connector_jar_path: full path to the deployed jar with the connector.
 
-## Dependencies
-
-- [amtega.check_platform](https://galaxy.ansible.com/amtega/check_platform)
-- [amtega.artifact](https://galaxy.ansible.com/amtega/artifact)
 
 ## Example Playbook
 
@@ -34,7 +26,7 @@ This is an example playbook:
     mysql_jdbc_connector_state: present
     mysql_jdbc_connector_version: 8.0.11
     mysql_jdbc_connector_dir: /root/software    
-    mysql_jdbc_connector_remove_artifact: false
+    mysql_jdbc_connector_remove_artifact: no
 ```
 
 ## Testing
@@ -50,7 +42,7 @@ $ ansible-playbook main.yml
 
 ## License
 
-Copyright (C) 2018 AMTEGA - Xunta de Galicia
+Copyright (C) 2019 AMTEGA - Xunta de Galicia
 
 This role is free software: you can redistribute it and/or modify it under the terms of:
 

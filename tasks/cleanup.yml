@@ -13,7 +13,7 @@
         path: "{{ mysql_jdbc_connector_package }}"
         state: absent
       when:
-        - mysql_jdbc_connector_remove_artifact
+        - mysql_jdbc_connector_remove_artifact | bool
         - mysql_jdbc_connector_package | length > 0
   tags:
     - role::mysql_jdbc_connector
