@@ -37,4 +37,4 @@ mysql_jdbc_connector_artifact:
 
 # Remove or not downloaded artifact after install
 
-mysql_jdbc_connector_remove_artifact: true
+mysql_jdbc_connector_remove_artifact: yes
