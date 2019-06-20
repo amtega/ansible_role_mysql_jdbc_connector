@@ -34,7 +34,7 @@ This is an example playbook:
     mysql_jdbc_connector_state: present
     mysql_jdbc_connector_version: 8.0.11
     mysql_jdbc_connector_dir: /root/software    
-    mysql_jdbc_connector_remove_artifact: false
+    mysql_jdbc_connector_remove_artifact: no
 ```
 
 ## Testing
