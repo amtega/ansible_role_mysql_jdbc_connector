@@ -7,7 +7,7 @@ galaxy_info:
   description: Setup MySQL JDBC connector
   company: AMTEGA - Xunta de Galicia
   license: GPLv3 or EUPL
-  min_ansible_version: 2.7
+  min_ansible_version: 2.9
   platforms:
     - name: EL
       versions:
@@ -24,5 +24,8 @@ galaxy_info:
 
 dependencies:
   - role: amtega.check_platform
-    tags:
-      - never
+    vars:
+      check_platform_distributions:
+        centos: 6
+        fedora: 29
+        rhel: 6
