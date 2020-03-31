@@ -2,13 +2,13 @@
 # Role cleanup tasks
 
 - block:
-    - name: remove mysql jdbc connector unarchive directory
+    - name: Remove mysql jdbc connector unarchive directory
       file:
         path: "{{ mysql_jdbc_connector_unarchive_dir }}"
         state: absent
       when: mysql_jdbc_connector_unarchive_dir | length > 0
 
-    - name: remove mysql jdbc connector artifact
+    - name: Remove mysql jdbc connector artifact
       file:
         path: "{{ mysql_jdbc_connector_package }}"
         state: absent

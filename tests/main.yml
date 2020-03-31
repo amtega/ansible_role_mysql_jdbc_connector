@@ -22,7 +22,7 @@
   tags:
     - sandbox
 
-- name: test mysql_jdbc_connector role with offical site download
+- name: Test mysql_jdbc_connector role with offical site download
   hosts: docker_sandbox_containers
   roles:
     - amtega.mysql_jdbc_connector
@@ -32,41 +32,41 @@
       mysql_jdbc_connector_dir: /root/software
       mysql_jdbc_connector_remove_artifact: no
   tasks:
-    - name: check mysql connector download
+    - name: Check mysql connector download
       stat:
         path: "{{ artifact_result.mysql_jdbc_connector.download_path }}"
       register: check_download_result
 
-    - name: check mysql connector install
+    - name: Check mysql connector install
       stat:
         path: "{{ mysql_jdbc_connector_jar_path }}"
       register: check_install_result
 
-    - name: check that mysql connector was downloaded and installed
+    - name: Check that mysql connector was downloaded and installed
       assert:
         that:
           - check_download_result.stat.exists
           - check_install_result.stat.exists
 
-    - name: create dir for fake jar file
+    - name: Create dir for fake jar file
       file:
         path: /tmp/connector
         state: directory
 
-    - name: create fake jar file for custom url download test
+    - name: Create fake jar file for custom url download test
       copy:
         dest: /tmp/connector/mysql-connector-java-13.13.13.jar
         content: "Fake file"
         force: yes
 
-    - name: create fake tarball for custom url download test
+    - name: Create fake tarball for custom url download test
       archive:
         path: /tmp/connector
         dest: /tmp/connector.tar.gz
   tags:
     - idempotence
 
-- name: test mysql_jdbc_connector role absent state
+- name: Test mysql_jdbc_connector role absent state
   hosts: docker_sandbox_containers
   roles:
     - amtega.mysql_jdbc_connector
@@ -76,17 +76,17 @@
       mysql_jdbc_connector_dir: /root/software
       mysql_jdbc_connector_remove_artifact: yes
   tasks:
-    - name: check mysql connector download
+    - name: Check mysql connector download
       stat:
         path: "{{ artifact_result.mysql_jdbc_connector.download_path }}"
       register: check_download_result
 
-    - name: check mysql connector install
+    - name: Check mysql connector install
       stat:
         path: "{{ mysql_jdbc_connector_jar_path }}"
       register: check_install_result
 
-    - name: check that mysql connector uninstalled
+    - name: Check that mysql connector uninstalled
       assert:
         that:
           - not check_download_result.stat.exists
