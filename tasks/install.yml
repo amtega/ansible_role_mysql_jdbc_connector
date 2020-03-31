@@ -2,12 +2,12 @@
 # Role install tasks
 
 - block:
-    - name: create mysql jdbc connector destination directory
+    - name: Create mysql jdbc connector destination directory
       file:
         path: "{{ mysql_jdbc_connector_dir }}"
         state: directory
 
-    - name: extract mysql jdbc connector artifact
+    - name: Extract mysql jdbc connector artifact
       unarchive:
         src: "{{ mysql_jdbc_connector_package }}"
         dest: "{{ mysql_jdbc_connector_package | dirname }}"
@@ -15,7 +15,7 @@
         creates: "{{ mysql_jdbc_connector_jar_path }}"
       register: mysql_jdbc_connector_unarchive_result
 
-    - name: install mysql jdbc connector
+    - name: Install mysql jdbc connector
       copy:
         src: >-
           {{ mysql_jdbc_connector_unarchive_dir

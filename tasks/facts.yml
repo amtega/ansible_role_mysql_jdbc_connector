@@ -3,7 +3,7 @@
 
 - block:
   - block:
-      - name: check internet connection availability
+      - name: Check internet connection availability
         wait_for:
           host: "{{ host }}"
           port: "{{ (port is none) | ternary(80, port) }}"
@@ -14,7 +14,7 @@
           port: "{{ mysql_jdbc_connector_site | urlsplit('port') }}"
         register: mysql_jdbc_connector_check_internet_result
 
-      - name: setup mysql jdbc connector latest version
+      - name: Setup mysql jdbc connector latest version
         when: mysql_jdbc_connector_version == "latest"
         set_fact:
            mysql_jdbc_connector_latest_version: >-
@@ -27,7 +27,7 @@
       mysql_jdbc_connector_artifact.host
       == mysql_jdbc_connector_site | urlsplit('hostname')
 
-  - name: setup fact with mysql jdbc connector path
+  - name: Setup fact with mysql jdbc connector path
     set_fact:
      mysql_jdbc_connector_jar_path: >-
        {{ mysql_jdbc_connector_dir }}/{{ mysql_jdbc_connector_jar_filename }}
