@@ -1,7 +1,7 @@
 ---
 # Role download tasks
 
-- name: download mysql jdbc connector artifact
+- name: Download mysql jdbc connector artifact
   include_role:
     name: amtega.artifact
   vars:

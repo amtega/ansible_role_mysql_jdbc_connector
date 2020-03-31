@@ -1,7 +1,7 @@
 ---
 # Role check tasks
 
-- name: check if mysql jdbc connector is installed
+- name: Check if mysql jdbc connector is installed
   stat:
     path: "{{ mysql_jdbc_connector_jar_path }}"
   register: mysql_jdbc_connector_jar_check_result
