@@ -1,0 +1,13 @@
+---
+# Search installed connectors tasks
+
+- name: Search installed mysql jdbc connectors
+  find:
+    paths: "{{ mysql_jdbc_connector_dir }}"
+    file_type: file
+    patterns: "mysql-connector-java-.*\\.jar"
+    use_regex: yes
+    recurse: no
+  register:  mysql_jdbc_connector_search_result
+  tags:
+    - role::mysql_jdbc_connector

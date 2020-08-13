@@ -13,6 +13,7 @@ galaxy_info:
       versions:
         - 6
         - 7
+        - 8
     - name: Fedora
       versions:
         - 29
@@ -28,4 +29,4 @@ dependencies:
       check_platform_distributions:
         centos: 6
         fedora: 29
-        rhel: 6
+        redhat: 6

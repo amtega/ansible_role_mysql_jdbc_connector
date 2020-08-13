@@ -11,7 +11,6 @@ The role setups the following facts:
 - mysql_jdbc_connector_latest_version: latest version of the connector available on the web. This fact is only available if you are downloading from the official MySQL site.
 - mysql_jdbc_connector_jar_path: full path to the deployed jar with the connector.
 
-
 ## Example Playbook
 
 This is an example playbook:
@@ -30,18 +29,17 @@ This is an example playbook:
 
 ## Testing
 
-Tests are based on docker containers. You can setup docker engine quickly using the playbook `files/setup.yml` available in the role [amtega.docker_engine](https://galaxy.ansible.com/amtega/docker_engine).
-
-Once you have docker, you can run the tests with the following commands:
+Tests are based on [molecule with docker containers](https://molecule.readthedocs.io/en/latest/installation.html).
 
 ```shell
-$ cd amtega.mysql_jdbc_connector/tests
-$ ansible-playbook main.yml
+cd amtega.mysql_jdbc_connector
+
+molecule test
 ```
 
 ## License
 
-Copyright (C) 2019 AMTEGA - Xunta de Galicia
+Copyright (C) 2020 AMTEGA - Xunta de Galicia
 
 This role is free software: you can redistribute it and/or modify it under the terms of:
 

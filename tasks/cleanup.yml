@@ -2,19 +2,15 @@
 # Role cleanup tasks
 
 - block:
+    - include_tasks: artifact.yml
+      vars:
+        mysql_jdbc_connector_artifact_state: absent
+
     - name: Remove mysql jdbc connector unarchive directory
       file:
         path: "{{ mysql_jdbc_connector_unarchive_dir }}"
         state: absent
       when: mysql_jdbc_connector_unarchive_dir | length > 0
-
-    - name: Remove mysql jdbc connector artifact
-      file:
-        path: "{{ mysql_jdbc_connector_package }}"
-        state: absent
-      when:
-        - mysql_jdbc_connector_remove_artifact | bool
-        - mysql_jdbc_connector_package | length > 0
   tags:
     - role::mysql_jdbc_connector
     - role::mysql_jdbc_connector::cleanup
