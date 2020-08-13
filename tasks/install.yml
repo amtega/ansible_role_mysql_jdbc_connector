@@ -2,18 +2,14 @@
 # Role install tasks
 
 - block:
+    - include_tasks: artifact.yml
+      vars:
+        mysql_jdbc_connector_artifact_state: present
+
     - name: Create mysql jdbc connector destination directory
       file:
         path: "{{ mysql_jdbc_connector_dir }}"
         state: directory
-
-    - name: Extract mysql jdbc connector artifact
-      unarchive:
-        src: "{{ mysql_jdbc_connector_package }}"
-        dest: "{{ mysql_jdbc_connector_package | dirname }}"
-        copy: no
-        creates: "{{ mysql_jdbc_connector_jar_path }}"
-      register: mysql_jdbc_connector_unarchive_result
 
     - name: Install mysql jdbc connector
       copy:
@@ -23,9 +19,10 @@
              + mysql_jdbc_connector_jar_filename }}
         dest: "{{ mysql_jdbc_connector_dir }}"
         remote_src: yes
-  when:
-    - mysql_jdbc_connector_state == "present"
-    - not mysql_jdbc_connector_jar_check_result.stat.exists
+
+    - name: Setup fact with mysql jdbc connector path
+      set_fact:
+        mysql_jdbc_connector_jar_path: "{{ mysql_jdbc_connector_jar_path }}"
   tags:
     - role::mysql_jdbc_connector
     - role::mysql_jdbc_connector::install

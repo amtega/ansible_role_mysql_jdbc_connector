@@ -1,0 +1,18 @@
+---
+# Role artifact tasks
+
+- name: Setup mysql jdbc connector artifact
+  include_role:
+    name: amtega.artifact
+  vars:
+    override:
+      id: mysql_jdbc_connector
+      download: "{{ mysql_jdbc_connector_need_install | bool }}"
+      version: "{{ mysql_jdbc_connector_effective_version }}"
+      state: "{{ mysql_jdbc_connector_artifact_state }}"
+      unarchive: yes
+    artifact: >-
+      {{ mysql_jdbc_connector_artifact | combine(override) }}
+  tags:
+    - role::mysql_jdbc_connector
+    - role::mysql_jdbc_connector::download

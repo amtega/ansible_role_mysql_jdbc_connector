@@ -3,9 +3,14 @@
 
 - name: Uninstall mysql jdbc connector
   file:
-    path: "{{ mysql_jdbc_connector_jar_path }}"
+    path: "{{ mysql_jdbc_connector_item }}"
     state: absent
-  when: mysql_jdbc_connector_state == "absent"
+  loop: >-
+    {{ mysql_jdbc_connector_search_result.files
+       | map(attribute="path")
+       | list }}
+  loop_control:
+    loop_var: mysql_jdbc_connector_item
   tags:
     - role::mysql_jdbc_connector
     - role::mysql_jdbc_connector::uninstall
