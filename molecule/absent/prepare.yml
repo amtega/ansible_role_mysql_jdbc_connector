@@ -1,0 +1,9 @@
+---
+
+- name: Prepare
+  hosts: molecule_hosts
+  gather_facts: no
+  roles:
+    - role: amtega.mysql_jdbc_connector
+      vars:
+        mysql_jdbc_connector_state: present
