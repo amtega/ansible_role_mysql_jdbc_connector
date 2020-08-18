@@ -71,8 +71,7 @@ provisioner:
         vars:
           mysql_jdbc_connector_state: present
           mysql_jdbc_connector_version: 8.0.11
-          mysql_jdbc_connector_dir: /root/software
-          mysql_jdbc_connector_remove_artifact: no
+          mysql_jdbc_connector_dir: /root
       molecule_hosts_fedora:
         vars:
           ansible_python_interpreter: /usr/bin/python3

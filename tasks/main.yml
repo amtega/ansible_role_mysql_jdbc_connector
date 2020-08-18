@@ -3,19 +3,26 @@
 
 - block:
     - include_tasks: latest.yml
+
     - include_tasks: search.yml
 
     - include_tasks: install.yml
       when:
         - mysql_jdbc_connector_state == "present"
-        - mysql_jdbc_connector_need_install | bool
+        - mysql_jdbc_connector_install_required | bool
 
     - include_tasks: uninstall.yml
       when: >-
         mysql_jdbc_connector_state == "absent"
         or (mysql_jdbc_connector_state == "present"
-            and mysql_jdbc_connector_need_install | bool)
+            and mysql_jdbc_connector_install_required | bool)
 
     - include_tasks: cleanup.yml
+      tags:
+        - role::mysql_jdbc_connector::cleanup
+
+    - include_tasks: facts.yml
+      tags:
+        - role::mysql_jdbc_connector::facts
   tags:
     - role::mysql_jdbc_connector
