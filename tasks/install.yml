@@ -19,10 +19,6 @@
              + mysql_jdbc_connector_jar_filename }}
         dest: "{{ mysql_jdbc_connector_dir }}"
         remote_src: yes
-
-    - name: Setup fact with mysql jdbc connector path
-      set_fact:
-        mysql_jdbc_connector_jar_path: "{{ mysql_jdbc_connector_jar_path }}"
   tags:
     - role::mysql_jdbc_connector
     - role::mysql_jdbc_connector::install

@@ -1,12 +1,15 @@
 ---
 # Role variables
 
-# Effective version to deploy
+# Versions
 
 mysql_jdbc_connector_effective_version: >-
   {{ (mysql_jdbc_connector_version == "latest")
      | ternary(mysql_jdbc_connector_latest_version,
                mysql_jdbc_connector_version) }}
+
+mysql_jdbc_connector_installed_version: >-
+  {{ ansible_local.mysql_jdbc_connector.version | default("0") }}
 
 # Paths
 
@@ -20,9 +23,6 @@ mysql_jdbc_connector_jar_path: >-
 
 mysql_jdbc_connector_tarball_filename: >-
   {{ mysql_jdbc_connector_filename + ".tar.gz" }}
-
-mysql_jdbc_connector_installed_version: >-
-  {{ mysql_jdbc_connector_artifact_facts.version | default("0") }}
 
 mysql_jdbc_connector_installed_filename: >-
   mysql-connector-java-{{ mysql_jdbc_connector_installed_version }}
@@ -79,14 +79,9 @@ mysql_jdbc_connector_package: >-
      | default({})).download_path
      | default("") }}
 
-# Artifact facts
-
-mysql_jdbc_connector_artifact_facts: >-
-  {{ ansible_local.artifact_mysql_jdbc_connector | default({}) }}
-
 # Indicate if install is required
 
-mysql_jdbc_connector_need_install: >-
+mysql_jdbc_connector_install_required: >-
   {{ (mysql_jdbc_connector_effective_version
       is not version(
        (mysql_jdbc_connector_installed_version | string | length > 0)
