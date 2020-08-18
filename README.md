@@ -34,7 +34,7 @@ Tests are based on [molecule with docker containers](https://molecule.readthedoc
 ```shell
 cd amtega.mysql_jdbc_connector
 
-molecule test
+molecule test --all
 ```
 
 ## License
