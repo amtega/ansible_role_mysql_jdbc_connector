@@ -14,6 +14,11 @@ mysql_jdbc_connector_version: latest
 
 mysql_jdbc_connector_dir: /opt/mysql_jdbc_connector
 
+# Mode for connector and directory
+
+# mysql_jdbc_connector_dir_mode: 
+# mysql_jdbc_connector_mode:
+
 # The role will try to identify the mysql jdbc connector artifact to download
 # from the official site.
 #
@@ -26,10 +31,10 @@ mysql_jdbc_connector_dir: /opt/mysql_jdbc_connector
 # necessary
 
 mysql_jdbc_connector_artifact:
-    type: https
-    host: "{{ mysql_jdbc_connector_official_download_host }}"
-    path: "{{ mysql_jdbc_connector_official_download_path }}"
-    file: "{{ mysql_jdbc_connector_official_download_file }}"
-    dest: /tmp
-    timeout: 120
-    validate_certs: yes
+  type: https
+  host: "{{ mysql_jdbc_connector_official_download_host }}"
+  path: "{{ mysql_jdbc_connector_official_download_path }}"
+  file: "{{ mysql_jdbc_connector_official_download_file }}"
+  dest: /tmp
+  timeout: 120
+  validate_certs: yes
