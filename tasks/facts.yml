@@ -10,6 +10,7 @@
       file:
         path: /etc/ansible/facts.d
         state: directory
+        mode: 0755
 
     - name: Setup mysql jdbc connector local fact
       template:

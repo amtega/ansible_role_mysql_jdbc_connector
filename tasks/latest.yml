@@ -16,12 +16,12 @@
     - name: Setup mysql jdbc connector latest version
       when: mysql_jdbc_connector_version == "latest"
       set_fact:
-         mysql_jdbc_connector_latest_version: >-
-           {{ lookup("url", mysql_jdbc_connector_site, wantlist=True)
-              | select("search", "<h1>Connector/J *.* *</h1>")
-              | first
-              | regex_replace(".*<h1>Connector/J (.*)</h1>.*", "\1")
-              | trim }}
+        mysql_jdbc_connector_latest_version: >-
+          {{ lookup("url", mysql_jdbc_connector_site, wantlist=True)
+             | select("search", "<h1>Connector/J *.* *</h1>")
+             | first
+             | regex_replace(".*<h1>Connector/J (.*)</h1>.*", "\1")
+             | trim }}
   when: >-
     mysql_jdbc_connector_artifact.host
     == mysql_jdbc_connector_site | urlsplit('hostname')
