@@ -3,21 +3,21 @@
 
 galaxy_info:
   role_name: mysql_jdbc_connector
+  namespace: amtega
   author: Juan Antonio Valiño García
   description: Setup MySQL JDBC connector
   company: AMTEGA - Xunta de Galicia
   license: GPLv3 or EUPL
-  min_ansible_version: 2.9
+  min_ansible_version: 2.10
   platforms:
     - name: EL
       versions:
-        - 6
         - 7
         - 8
     - name: Fedora
       versions:
-        - 29
-        - 30
+        - 34
+        - 35
   galaxy_tags:
     - java
     - mysql
@@ -27,6 +27,6 @@ dependencies:
   - role: amtega.check_platform
     vars:
       check_platform_distributions:
-        centos: 6
-        fedora: 29
-        redhat: 6
+        centos: 7
+        fedora: 34
+        redhat: 7
