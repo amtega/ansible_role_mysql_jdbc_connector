@@ -1,19 +1,19 @@
 ---
-# Role install tasks
 
-- block:
-    - include_tasks: artifact.yml
+- name: Install mysql jdbc connector
+  block:
+    - ansible.builtin.include_tasks: artifact.yml
       vars:
         mysql_jdbc_connector_artifact_state: present
 
     - name: Create mysql jdbc connector destination directory
-      file:
+      ansible.builtin.file:
         path: "{{ mysql_jdbc_connector_dir }}"
         state: directory
         mode: "{{ mysql_jdbc_connector_dir_mode | default(omit) }}"
 
     - name: Install mysql jdbc connector
-      copy:
+      ansible.builtin.copy:
         src: >-
           {{ mysql_jdbc_connector_unarchive_dir
              + "/"

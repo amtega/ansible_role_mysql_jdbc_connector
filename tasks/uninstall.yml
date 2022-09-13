@@ -1,8 +1,7 @@
 ---
-# Role uninstall tasks
 
 - name: Uninstall mysql jdbc connector
-  file:
+  ansible.builtin.file:
     path: "{{ mysql_jdbc_connector_item }}"
     state: absent
   loop: >-

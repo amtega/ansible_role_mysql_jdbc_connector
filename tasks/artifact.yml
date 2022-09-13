@@ -1,8 +1,7 @@
 ---
-# Role artifact tasks
 
 - name: Setup mysql jdbc connector artifact
-  include_role:
+  ansible.builtin.include_role:
     name: amtega.artifact
   vars:
     override:
