@@ -1,8 +1,8 @@
 ---
-# Role cleanup tasks
 
-- block:
-    - include_tasks: artifact.yml
+- name: Cleanup
+  block:
+    - ansible.builtin.include_tasks: artifact.yml
       vars:
         mysql_jdbc_connector_artifact_state: absent
   tags:

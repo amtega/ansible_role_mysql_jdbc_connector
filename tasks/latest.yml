@@ -1,9 +1,9 @@
 ---
-# Gather latest version tasks
 
-- block:
+- name: Gather mysql jdbc connector latest version
+  block:
     - name: Check internet connection availability
-      wait_for:
+      ansible.builtin.wait_for:
         host: "{{ host }}"
         port: "{{ (port is none) | ternary(80, port) }}"
         connect_timeout: 1
@@ -15,7 +15,7 @@
 
     - name: Setup mysql jdbc connector latest version
       when: mysql_jdbc_connector_version == "latest"
-      set_fact:
+      ansible.builtin.set_fact:
         mysql_jdbc_connector_latest_version: >-
           {{ lookup("url", mysql_jdbc_connector_site, wantlist=True)
              | select("search", "<h1>Connector/J *.* *</h1>")

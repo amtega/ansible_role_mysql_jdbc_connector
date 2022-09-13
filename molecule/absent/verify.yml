@@ -5,13 +5,13 @@
   gather_facts: no
   tasks:
     - name: Load role variables
-      include_vars: ../../vars/main.yml
+      ansible.builtin.include_vars: ../../vars/main.yml
 
     - name: Check mysql connector install
-      stat:
+      ansible.builtin.stat:
         path: "{{ mysql_jdbc_connector_jar_path }}"
       register: check_connector_result
 
     - name: Check that mysql connector uninstalled
-      assert:
+      ansible.builtin.assert:
         that: not check_connector_result.stat.exists
